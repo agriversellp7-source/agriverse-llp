@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="preload" as="image" href="/logo.png" />
+  
+  <!-- Primary Meta Tags -->
+  <title>AgriVerse LLP | Premium Mulching Sheets</title>
+  <meta name="title" content="AgriVerse LLP | Premium Mulching Sheets" />
+  <meta name="description" content="AgriVerse LLP manufactures premium mulching sheets and agricultural solutions for modern, farmer-focused agriculture." />
+  <meta name="keywords" content="mulching sheets, mulch film, agriculture, AgriVerse, farming, agri manufacturing" />
+  <meta name="author" content="AgriVerse LLP" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+  <!-- Cache Control -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+
+  <!-- Favicon Configuration -->
+  <link rel="icon" type="image/png" sizes="192x192" href="/favicon.png" />
+  <link rel="apple-touch-icon" href="/favicon.png" />
+  <meta name="theme-color" content="#ffffff" />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://agriverse.in/" />
+  <meta property="og:site_name" content="AgriVerse LLP" />
+  <meta property="og:title" content="AgriVerse LLP | Premium Mulching Sheets" />
+  <meta property="og:description" content="AgriVerse LLP manufactures premium mulching sheets and agricultural solutions for modern, farmer-focused agriculture." />
+  <meta property="og:image" content="https://agriverse.in/favicon.png" />
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://agriverse.in/" />
+  <meta property="twitter:title" content="AgriVerse LLP | Premium Mulching Sheets" />
+  <meta property="twitter:description" content="AgriVerse LLP manufactures premium mulching sheets and agricultural solutions for modern, farmer-focused agriculture." />
+  <meta property="twitter:image" content="https://agriverse.in/favicon.png" />
+
+  <!-- Google Structured Data (JSON-LD) for Bold Brand Name & Logo in Search -->
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "AgriVerse LLP",
+      "alternateName": "AgriVerse LLP",
+      "url": "https://agriverse.in/",
+      "logo": "https://agriverse.in/favicon.png",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "customer service"
+      }
+    }
+  </script>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "AgriVerse LLP",
+      "url": "https://agriverse.in/"
+    }
+  </script>
+
+  <!-- Fonts & Styles -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <div id="root"></div>
+  <script>
+    // Track zoom-out steps. Each step of Ctrl+- is ~10% zoom reduction.
+    // MAX_ZOOM_OUT = 1 means the user can zoom out to ~90% but no further.
+    var zoomOutSteps = 0;
+    var MAX_ZOOM_OUT = 1;
+
+    // Ctrl+scroll (trackpad pinch or mouse wheel zoom)
+    document.addEventListener('wheel', function(e) {
+      if (!e.ctrlKey) return;
+      if (e.deltaY > 0) {
+        // Zooming OUT (scroll down with Ctrl)
+        if (zoomOutSteps >= MAX_ZOOM_OUT) {
+          e.preventDefault(); // block — already at 90%
+        } else {
+          zoomOutSteps++;
+          // allow the browser to zoom out
+        }
+      } else {
+        // Zooming IN (scroll up with Ctrl) — always allow
+        if (zoomOutSteps > 0) zoomOutSteps--;
+      }
+    }, { passive: false });
+
+    // Keyboard zoom shortcuts
+    document.addEventListener('keydown', function(e) {
+      if (!e.ctrlKey) return;
+      if (e.key === '-' || e.key === '_') {
+        // Zoom out
+        if (zoomOutSteps >= MAX_ZOOM_OUT) {
+          e.preventDefault(); // block — already at 90%
+        } else {
+          zoomOutSteps++;
+        }
+      } else if (e.key === '+' || e.key === '=') {
+        // Zoom in — always allow
+        if (zoomOutSteps > 0) zoomOutSteps--;
+      } else if (e.key === '0') {
+        // Reset to 100% — allow and reset counter
+        zoomOutSteps = 0;
+      }
+    });
+  </script>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+
+</html>
