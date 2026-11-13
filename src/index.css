@@ -761,6 +761,19 @@ h1, h2, h3, h4, h5, h6 {
   .why2-heading-m { display: block; margin: 0 0 12px; font-size: 24px; letter-spacing: -.6px; }
   .why2-heading-m::before { display: none; }
   .why2-media { position: relative; top: auto; aspect-ratio: 16 / 9; box-shadow: none; }
-  .why2-item { min-height: 30vh; padding: 26px 0; }
   .why2-inner { gap: 6px; }
+}
+
+/* ===== Mobile refinements ===== */
+@media (max-width: 768px) {
+  /* Hero video fills the phone screen down to the bottom edge (svh = visible height with browser bars) */
+  .hero-video-wrapper { min-height: calc(100vh - 70px); min-height: calc(100svh - 70px); padding-bottom: 130px; }
+  .hero-video-content { padding-top: 24px; }
+
+  /* Rounded product cards, images and action buttons */
+  .product-card { border-radius: 18px !important; overflow: hidden; }
+  .product-card-button, .showcase-btn, .hero-video-content a, .why2-cta, .view-all-btn { border-radius: 999px !important; }
+
+  /* Why our mulching sheet: tighter rows */
+  .why2-item { min-height: 11vh; padding: 12px 0; }
 }
