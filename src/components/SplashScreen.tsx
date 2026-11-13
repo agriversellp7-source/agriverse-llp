@@ -27,7 +27,7 @@ export default function SplashScreen() {
                 style={{ textAlign: 'center' }}
             >
                 <motion.img
-                    src="/logo.png"
+                    src="/logo.webp"
                     alt="AgriVerse LLP"
                     initial={{ clipPath: "inset(0 100% 0 0)" }}
                     animate={{ clipPath: "inset(0 0% 0 0)" }}

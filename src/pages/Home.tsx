@@ -126,7 +126,7 @@ export default function Home() {
         <div style={{ paddingBottom: '0' }}>
             {/* HERO SECTION - looping video */}
             <div className="hero-video-wrapper">
-                <video className="hero-video" src="/videos/hero.mp4" autoPlay muted loop playsInline preload="auto" />
+                <video className="hero-video" src="/videos/hero.mp4" poster="/videos/hero-poster.jpg" autoPlay muted loop playsInline preload="metadata" />
                 <div className="hero-video-overlay" />
                 <div className="hero-video-content">
                     <div className="hero-badge-container">

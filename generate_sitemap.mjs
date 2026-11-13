@@ -18,22 +18,24 @@ if (!SUPABASE_URL || !SUPABASE_KEY) {
             }
         });
     } catch (err) {
-        console.error("Could not read .env.local and process.env is missing variables.");
+            // no .env.local (normal on a fresh checkout) - handled below
     }
 }
 
-if (!SUPABASE_URL || !SUPABASE_KEY) {
-    console.error("Missing Supabase credentials!");
-    process.exit(1);
+// Never fail the build because of the sitemap: without Supabase credentials we still publish the static pages.
+const HAS_CREDENTIALS = Boolean(SUPABASE_URL && SUPABASE_KEY);
+if (!HAS_CREDENTIALS) {
+    console.warn("⚠️  Supabase credentials not found - sitemap will contain static pages only.");
 }
 
-const BASE_URL = 'https://agriverse.in';
+const BASE_URL = process.env.SITE_URL || 'https://agriverse.in';
 
 async function generateSitemap() {
     console.log("Fetching products from Supabase...");
     
     let products = [];
     try {
+        if (!HAS_CREDENTIALS) throw new Error('no credentials');
         const response = await fetch(`${SUPABASE_URL}/rest/v1/products?select=slug`, {
             headers: {
                 'apikey': SUPABASE_KEY,
@@ -46,8 +48,7 @@ async function generateSitemap() {
         }
         products = await response.json();
     } catch (error) {
-        console.error("Error fetching products:", error);
-        return;
+        console.warn("Could not fetch products for the sitemap (" + error.message + ") - using static pages only.");
     }
 
     const today = new Date().toISOString().split('T')[0];

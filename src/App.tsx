@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
 
 // Prevent browser from restoring scroll position on reload
 if (typeof window !== 'undefined' && 'scrollRestoration' in window.history) {
@@ -7,26 +7,25 @@ if (typeof window !== 'undefined' && 'scrollRestoration' in window.history) {
 }
 import { AnimatePresence, motion } from 'framer-motion';
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
-import { Analytics } from '@vercel/analytics/react';
 import Layout from './components/Layout';
 import Home from './pages/Home';
-import ProductDetail from './pages/ProductDetail';
-import AllProducts from './pages/AllProducts';
-import AboutUs from './pages/AboutUs';
-import ContactUs from './pages/ContactUs';
-import GeneralEnquiry from './pages/GeneralEnquiry';
-import NotFound from './pages/NotFound';
+const ProductDetail = lazy(() => import('./pages/ProductDetail'));
+const AllProducts = lazy(() => import('./pages/AllProducts'));
+const AboutUs = lazy(() => import('./pages/AboutUs'));
+const ContactUs = lazy(() => import('./pages/ContactUs'));
+const GeneralEnquiry = lazy(() => import('./pages/GeneralEnquiry'));
+const NotFound = lazy(() => import('./pages/NotFound'));
 
-import ProtectedRoute from './components/ProtectedRoute';
-import AdminLayout from './components/AdminLayout';
+const ProtectedRoute = lazy(() => import('./components/ProtectedRoute'));
+const AdminLayout = lazy(() => import('./components/AdminLayout'));
 import SplashScreen from './components/SplashScreen';
-import Login from './pages/admin/Login';
-import Dashboard from './pages/admin/Dashboard';
-import Enquiries from './pages/admin/Enquiries';
-import Products from './pages/admin/Products';
-import ProductForm from './pages/admin/ProductForm';
-import Settings from './pages/admin/Settings';
-import StorageCleanup from './pages/admin/StorageCleanup';
+const Login = lazy(() => import('./pages/admin/Login'));
+const Dashboard = lazy(() => import('./pages/admin/Dashboard'));
+const Enquiries = lazy(() => import('./pages/admin/Enquiries'));
+const Products = lazy(() => import('./pages/admin/Products'));
+const ProductForm = lazy(() => import('./pages/admin/ProductForm'));
+const Settings = lazy(() => import('./pages/admin/Settings'));
+const StorageCleanup = lazy(() => import('./pages/admin/StorageCleanup'));
 
 // Page transition wrapper
 const PageTransition = ({ children }: { children: React.ReactNode }) => {
@@ -53,6 +52,7 @@ function AppRoutes() {
   }, [location.pathname]);
 
   return (
+    <Suspense fallback={<div style={{ minHeight: '60vh' }} />}>
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
         <Route path="/" element={<Layout />}>
@@ -82,6 +82,7 @@ function AppRoutes() {
         <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
       </Routes>
     </AnimatePresence>
+    </Suspense>
   );
 }
 
@@ -126,7 +127,6 @@ function App() {
         </AnimatePresence>
         <AppRoutes />
       </BrowserRouter>
-      <Analytics />
     </GoogleReCaptchaProvider>
   );
 }
