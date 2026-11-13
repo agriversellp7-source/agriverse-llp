@@ -12,6 +12,16 @@ interface WebhookPayload {
   old_record: null | any;
 }
 
+// Escape user-supplied text before putting it into the HTML email.
+const esc = (v: unknown) =>
+  String(v ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c] as string));
+
+const row = (label: string, value: string) => `
+  <tr>
+    <td style="padding: 10px; border: 1px solid #ddd; background-color: #f5faf7; font-weight: bold; width: 140px;">${label}</td>
+    <td style="padding: 10px; border: 1px solid #ddd;">${value}</td>
+  </tr>`;
+
 export default {
   async fetch(req: Request) {
     if (req.method === 'OPTIONS') {
@@ -19,6 +29,12 @@ export default {
     }
 
     try {
+      // Only accept calls that carry our shared secret (set the same value in the DB webhook header).
+      const expected = Deno.env.get('WEBHOOK_SECRET');
+      if (expected && req.headers.get('x-webhook-secret') !== expected) {
+        return new Response('Unauthorized', { status: 401 });
+      }
+
       const payload: WebhookPayload = await req.json();
 
       if (payload.type !== 'INSERT' || payload.table !== 'enquiries') {
@@ -50,96 +66,44 @@ export default {
       const toEmail = settings?.admin_email || gmailAddress;
       console.log('Sending email to:', toEmail);
 
-      // Create a Nodemailer transporter using SMTP
+      // Gmail SMTP (needs a Google "App Password", not your normal password)
       const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-          user: gmailAddress,
-          pass: gmailPassword,
-        },
+        host: 'smtp.gmail.com',
+        port: 465,
+        secure: true,
+        auth: { user: gmailAddress, pass: gmailPassword },
       });
 
-      // Construct the email body
+      const typeLabel = { product: 'Product enquiry', general: 'General enquiry', contact: 'Contact message' }[enquiry.type as string] ?? 'Enquiry';
+      const validEmail = typeof enquiry.email === 'string' && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(enquiry.email);
+
+      const products = Array.isArray(enquiry.ingredients) && enquiry.ingredients.length > 0
+        ? enquiry.ingredients.map((p: any) => `${esc(p.herb)}${p.form ? ' - ' + esc(p.form) : ''}${p.qty ? ' (' + esc(p.qty) + ')' : ''}`).join('<br/>')
+        : '';
+
       const mailOptions = {
-        from: `AgriVerse Enquiries <${gmailAddress}>`,
+        from: `Website Enquiries <${gmailAddress}>`,
         to: toEmail,
-        subject: `New Enquiry from ${enquiry.name}`,
+        replyTo: validEmail ? enquiry.email : undefined,   // hit "Reply" to answer the customer directly
+        subject: `${typeLabel} from ${String(enquiry.name ?? '').slice(0, 80)}`,
         html: `
           <div style="font-family: Arial, sans-serif; padding: 20px; max-width: 600px; color: #333;">
-            <h2 style="color: #0f7a43;">New AgriVerse Enquiry Received</h2>
-            <p>You have received a new enquiry via the website form.</p>
-            
-            <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
-              <tr>
-                <td style="padding: 10px; border: 1px solid #ddd; background-color: #f9f9f9; font-weight: bold; width: 120px;">Name</td>
-                <td style="padding: 10px; border: 1px solid #ddd;">${enquiry.name}</td>
-              </tr>
-              <tr>
-                <td style="padding: 10px; border: 1px solid #ddd; background-color: #f9f9f9; font-weight: bold;">Email</td>
-                <td style="padding: 10px; border: 1px solid #ddd;"><a href="mailto:${enquiry.email}">${enquiry.email}</a></td>
-              </tr>
-              <tr>
-                <td style="padding: 10px; border: 1px solid #ddd; background-color: #f9f9f9; font-weight: bold;">Phone</td>
-                <td style="padding: 10px; border: 1px solid #ddd;">${enquiry.phone || 'N/A'}</td>
-              </tr>
-              ${enquiry.company ? `
-              <tr>
-                <td style="padding: 10px; border: 1px solid #ddd; background-color: #f9f9f9; font-weight: bold;">Company</td>
-                <td style="padding: 10px; border: 1px solid #ddd;">${enquiry.company}</td>
-              </tr>
-              ` : ''}
-              ${enquiry.country ? `
-              <tr>
-                <td style="padding: 10px; border: 1px solid #ddd; background-color: #f9f9f9; font-weight: bold;">Country</td>
-                <td style="padding: 10px; border: 1px solid #ddd;">${enquiry.country}</td>
-              </tr>
-              ` : ''}
-              ${enquiry.role ? `
-              <tr>
-                <td style="padding: 10px; border: 1px solid #ddd; background-color: #f9f9f9; font-weight: bold;">Role / User Type</td>
-                <td style="padding: 10px; border: 1px solid #ddd;">${enquiry.role}</td>
-              </tr>
-              ` : ''}
-              ${enquiry.type ? `
-              <tr>
-                <td style="padding: 10px; border: 1px solid #ddd; background-color: #f9f9f9; font-weight: bold;">Enquiry Type</td>
-                <td style="padding: 10px; border: 1px solid #ddd;">${enquiry.type.toUpperCase()}</td>
-              </tr>
-              ` : ''}
-              ${enquiry.product_name ? `
-              <tr>
-                <td style="padding: 10px; border: 1px solid #ddd; background-color: #f9f9f9; font-weight: bold;">Product Name</td>
-                <td style="padding: 10px; border: 1px solid #ddd;">${enquiry.product_name}</td>
-              </tr>
-              ` : ''}
-              ${enquiry.ingredients && enquiry.ingredients.length > 0 ? `
-              <tr>
-                <td style="padding: 10px; border: 1px solid #ddd; background-color: #f9f9f9; font-weight: bold;">Ingredients</td>
-                <td style="padding: 10px; border: 1px solid #ddd;">
-                  ${enquiry.ingredients.map((ing: any) => `${ing.herb} (${ing.qty || 'Standard'})`).join('<br/>')}
-                </td>
-              </tr>
-              ` : ''}
-              ${enquiry.end_application && enquiry.end_application.length > 0 ? `
-              <tr>
-                <td style="padding: 10px; border: 1px solid #ddd; background-color: #f9f9f9; font-weight: bold;">Applications</td>
-                <td style="padding: 10px; border: 1px solid #ddd;">${enquiry.end_application.join(', ')}</td>
-              </tr>
-              ` : ''}
-              ${enquiry.documents_needed && enquiry.documents_needed.length > 0 ? `
-              <tr>
-                <td style="padding: 10px; border: 1px solid #ddd; background-color: #f9f9f9; font-weight: bold;">Documents Needed</td>
-                <td style="padding: 10px; border: 1px solid #ddd;">${enquiry.documents_needed.join(', ')}</td>
-              </tr>
-              ` : ''}
-              <tr>
-                <td style="padding: 10px; border: 1px solid #ddd; background-color: #f9f9f9; font-weight: bold;">Message</td>
-                <td style="padding: 10px; border: 1px solid #ddd;">${(enquiry.message || '').replace(/\n/g, '<br/>')}</td>
-              </tr>
+            <h2 style="color: #0f7a43; margin-top: 0;">New ${esc(typeLabel)}</h2>
+            <table style="width: 100%; border-collapse: collapse; margin-top: 16px;">
+              ${row('Name', esc(enquiry.name))}
+              ${row('Phone', enquiry.phone ? `<a href="tel:${esc(enquiry.phone)}">${esc(enquiry.phone)}</a>` : 'N/A')}
+              ${row('Email', validEmail ? `<a href="mailto:${esc(enquiry.email)}">${esc(enquiry.email)}</a>` : 'N/A')}
+              ${enquiry.company ? row('Company / Farm', esc(enquiry.company)) : ''}
+              ${enquiry.country ? row('Location', esc(enquiry.country)) : ''}
+              ${enquiry.role ? row('I am a', esc(enquiry.role)) : ''}
+              ${enquiry.product_name ? row('Product', esc(enquiry.product_name)) : ''}
+              ${products ? row('Products needed', products) : ''}
+              ${Array.isArray(enquiry.end_application) && enquiry.end_application.length ? row('Crop / use', esc(enquiry.end_application.join(', '))) : ''}
+              ${Array.isArray(enquiry.documents_needed) && enquiry.documents_needed.length ? row('Needs', esc(enquiry.documents_needed.join(', '))) : ''}
+              ${row('Message', esc(enquiry.message).replace(/\n/g, '<br/>') || 'N/A')}
             </table>
-            
-            <p style="margin-top: 30px; font-size: 12px; color: #888;">
-              This email was generated automatically by AgriVerse website.
+            <p style="margin-top: 28px; font-size: 12px; color: #888;">
+              Sent automatically by your website. You can also see and manage this enquiry in the Admin panel.
             </p>
           </div>
         `,

@@ -783,3 +783,6 @@ h1, h2, h3, h4, h5, h6 {
 .footer-logo-img { width: 170px !important; }
 .footer-company { display: flex; align-items: center; justify-content: center; gap: 12px; margin: 0 auto 6px; color: #7a857e; font-size: 12.5px; letter-spacing: .4px; }
 .footer-company img { height: 44px; width: auto; }
+
+/* Products page: tighter space above the footer */
+.all-products-grid { margin-bottom: 0 !important; }

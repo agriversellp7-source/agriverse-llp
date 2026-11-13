@@ -78,7 +78,7 @@ export default function AllProducts() {
     const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
 
     return (
-        <div style={{ backgroundColor: '#f9f9f9', paddingBottom: '80px' }}>
+        <div style={{ backgroundColor: '#f9f9f9', paddingBottom: '44px' }}>
             <div style={{ textAlign: 'center', padding: isMobile ? '30px 15px 20px' : '60px 15px', backgroundColor: '#fff', borderBottom: '1px solid #eaeaea' }}>
                 <div style={{ fontSize: '14px', color: '#888', marginBottom: '10px' }}>
                     <Link to="/" style={{ color: '#888', textDecoration: 'none' }}>Home</Link> / 
