@@ -52,10 +52,14 @@ CLI (run in the project folder):
 ```bash
 npx supabase login
 npx supabase link --project-ref YOUR-PROJECT-REF     # the ref is in your Supabase URL
-npx supabase functions deploy send-enquiry-email
+npx supabase functions deploy send-enquiry-email --no-verify-jwt
 ```
 No CLI? Dashboard -> Edge Functions -> **Deploy a new function -> Via Editor**, name it
 `send-enquiry-email`, paste the contents of `supabase/functions/send-enquiry-email/index.ts`, Deploy.
+
+**Important - turn OFF "Verify JWT" for this function** (dashboard: Edge Functions -> send-enquiry-email -> Details/Settings;
+the CLI command above does it with `--no-verify-jwt`). New Supabase projects use `sb_publishable_...` keys, which the
+default JWT check rejects with 401. This is safe: the function protects itself with the `x-webhook-secret` header.
 
 ### 4d. Trigger it on every new enquiry
 Option 1 (dashboard): **Database -> Webhooks -> Create a new hook**
@@ -75,6 +79,7 @@ Debug: Dashboard -> Edge Functions -> `send-enquiry-email` -> **Logs**.
 | `Invalid login` / `535` | wrong app password, or 2-Step Verification is off |
 | `GMAIL_ADDRESS or GMAIL_PASSWORD is not set` | secrets missing (step 4b) |
 | HTTP 401 `Unauthorized` | `x-webhook-secret` header differs from `WEBHOOK_SECRET` |
+| HTTP 401 `Invalid JWT` | "Verify JWT" is still ON for the function - turn it off (see 4c) |
 | nothing in logs | webhook/trigger not created (step 4d) |
 
 Limits: a normal Gmail account can send about 500 mails/day - far more than needed. The enquiry is always saved in the
