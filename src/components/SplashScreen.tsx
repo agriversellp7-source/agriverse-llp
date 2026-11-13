@@ -27,7 +27,7 @@ export default function SplashScreen() {
                 style={{ textAlign: 'center' }}
             >
                 <motion.img
-                    src="/logo.webp"
+                    src="/dharaa-logo.webp"
                     alt="Dharaa"
                     initial={{ clipPath: "inset(0 100% 0 0)" }}
                     animate={{ clipPath: "inset(0 0% 0 0)" }}

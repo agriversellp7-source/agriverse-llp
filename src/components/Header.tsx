@@ -95,7 +95,7 @@ export default function Header() {
                     {/* Logo - Fixed height for 100% smooth scroll without layout shifts */}
                     <Link to="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
                         <img
-                            src="/logo-header.webp"
+                            src="/dharaa-logo-header.webp"
                             alt="Dharaa"
                             className="header-logo-img"
                         />
@@ -247,7 +247,7 @@ export default function Header() {
                 <div style={{ padding: '22px 20px 18px 20px', borderBottom: '1px solid #e1ece5', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
                         <img
-                            src="/logo-header.webp"
+                            src="/dharaa-logo-header.webp"
                             alt="Dharaa"
                             style={{ height: '36px', width: 'auto', objectFit: 'contain' }}
                         />

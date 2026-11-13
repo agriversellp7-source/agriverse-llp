@@ -154,7 +154,7 @@ const Login = () => {
 
         {/* Logo */}
         <div style={{ textAlign: 'center', marginBottom: '30px' }}>
-          <img src="/logo.webp" alt="Dharaa" style={{ height: '40px', width: 'auto' }} />
+          <img src="/dharaa-logo.webp" alt="Dharaa" style={{ height: '40px', width: 'auto' }} />
         </div>
 
         <div style={{ backgroundColor: 'white', padding: '40px', borderRadius: '8px', boxShadow: '0 4px 20px rgba(0,0,0,0.07)', border: '1px solid #eaeaea' }}>

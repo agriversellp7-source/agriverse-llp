@@ -15,7 +15,7 @@ export default function Footer() {
 
                     {/* Logo Column */}
                     <div className="footer-logo-col">
-                        <img src="/logo.webp" alt="Dharaa" className="footer-logo-img" />
+                        <img src="/dharaa-logo.webp" alt="Dharaa" className="footer-logo-img" />
                         <p style={{ color: 'var(--text-light)', fontSize: '14px', lineHeight: '1.7', margin: 0 }}>
                             Rooted in agriculture. Driven by innovation. Connected to farmers.
                         </p>
