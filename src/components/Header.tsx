@@ -96,7 +96,7 @@ export default function Header() {
                     <Link to="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
                         <img
                             src="/logo-header.webp"
-                            alt="AgriVerse LLP"
+                            alt="Dharaa"
                             className="header-logo-img"
                         />
                     </Link>
@@ -248,7 +248,7 @@ export default function Header() {
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
                         <img
                             src="/logo-header.webp"
-                            alt="AgriVerse LLP"
+                            alt="Dharaa"
                             style={{ height: '36px', width: 'auto', objectFit: 'contain' }}
                         />
                     </div>

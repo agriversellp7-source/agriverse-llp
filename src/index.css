@@ -77,14 +77,14 @@ h1, h2, h3, h4, h5, h6 {
 
 /* ===== HEADER LOGO ===== */
 .header-logo-img {
-  height: 50px; /* Slightly larger than original 40px, but fits laptop headers perfectly */
+  height: 64px; /* Slightly larger than original 40px, but fits laptop headers perfectly */
   width: auto;
   display: block;
 }
 
 @media (max-width: 768px) {
   .header-logo-img {
-    height: 42px;
+    height: 50px;
     width: auto;
   }
 }
@@ -636,8 +636,8 @@ h1, h2, h3, h4, h5, h6 {
   .why2-media { position: sticky; top: 78px; z-index: 5; aspect-ratio: 16 / 10; box-shadow: 0 -14px 0 #f1f5f2, 0 14px 0 #f1f5f2, 0 22px 30px rgba(15,40,25,.14); }
   .why2-title { font-size: 26px; }
 }
-.header-spacer { height: 78px; }
-@media (max-width: 768px) { .header-spacer { height: 70px; } }
+.header-spacer { height: 92px; }
+@media (max-width: 768px) { .header-spacer { height: 78px; } }
 
 /* ===== Consistent page gutters + balanced footer (AgriVerse) ===== */
 .footer-main-row { display: grid !important; grid-template-columns: 1.2fr 1fr 1.4fr 1.1fr; gap: clamp(24px, 3vw, 60px) !important; align-items: start; justify-items: start; }
@@ -767,7 +767,7 @@ h1, h2, h3, h4, h5, h6 {
 /* ===== Mobile refinements ===== */
 @media (max-width: 768px) {
   /* Hero video fills the phone screen down to the bottom edge (svh = visible height with browser bars) */
-  .hero-video-wrapper { min-height: calc(100vh - 70px); min-height: calc(100svh - 70px); padding-bottom: 130px; }
+  .hero-video-wrapper { min-height: calc(100vh - 78px); min-height: calc(100svh - 78px); padding-bottom: 130px; }
   .hero-video-content { padding-top: 24px; }
 
   /* Rounded product cards, images and action buttons */
@@ -777,3 +777,9 @@ h1, h2, h3, h4, h5, h6 {
   /* Why our mulching sheet: tighter rows */
   .why2-item { min-height: 11vh; padding: 12px 0; }
 }
+
+/* Brand logo is transparent: no blend trick needed. Company line in the footer. */
+.header-logo-img, .footer-logo-img, .logo-img { mix-blend-mode: normal; }
+.footer-logo-img { width: 170px !important; }
+.footer-company { display: flex; align-items: center; justify-content: center; gap: 12px; margin: 0 auto 6px; color: #7a857e; font-size: 12.5px; letter-spacing: .4px; }
+.footer-company img { height: 44px; width: auto; }

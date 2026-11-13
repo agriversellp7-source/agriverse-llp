@@ -39,7 +39,7 @@ const AdminLayout = () => {
           </button>
 
           <Link to="/ad" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
-            <img src="/logo.webp" alt="AgriVerse LLP" style={{ height: '32px', width: 'auto', objectFit: 'contain' }} />
+            <img src="/logo.webp" alt="Dharaa" style={{ height: '32px', width: 'auto', objectFit: 'contain' }} />
             <span style={{ fontSize: '11px', backgroundColor: '#0f7a43', color: '#fff', padding: '3px 8px', borderRadius: '4px', fontWeight: '700', letterSpacing: '0.5px' }}>
               ADMIN
             </span>
@@ -60,7 +60,7 @@ const AdminLayout = () => {
           <div className="admin-popup-drawer" onClick={(e) => e.stopPropagation()}>
             <div className="admin-popup-drawer-header">
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <img src="/logo.webp" alt="AgriVerse LLP" style={{ height: '32px', width: 'auto' }} />
+                <img src="/logo.webp" alt="Dharaa" style={{ height: '32px', width: 'auto' }} />
                 <span style={{ fontSize: '12px', fontWeight: '700', color: '#0f7a43', letterSpacing: '0.5px' }}>NAVIGATION</span>
               </div>
               <button 

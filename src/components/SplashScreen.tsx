@@ -28,7 +28,7 @@ export default function SplashScreen() {
             >
                 <motion.img
                     src="/logo.webp"
-                    alt="AgriVerse LLP"
+                    alt="Dharaa"
                     initial={{ clipPath: "inset(0 100% 0 0)" }}
                     animate={{ clipPath: "inset(0 0% 0 0)" }}
                     transition={{ duration: 1.5, ease: "easeInOut", delay: 0.2 }}

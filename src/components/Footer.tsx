@@ -15,7 +15,7 @@ export default function Footer() {
 
                     {/* Logo Column */}
                     <div className="footer-logo-col">
-                        <img src="/logo.webp" alt="AgriVerse LLP" className="footer-logo-img" />
+                        <img src="/logo.webp" alt="Dharaa" className="footer-logo-img" />
                         <p style={{ color: 'var(--text-light)', fontSize: '14px', lineHeight: '1.7', margin: 0 }}>
                             Rooted in agriculture. Driven by innovation. Connected to farmers.
                         </p>
@@ -55,6 +55,11 @@ export default function Footer() {
                             <a href="mailto:info@agriverse.in" style={{ color: '#4a4a4a', textDecoration: 'none', fontSize: '14px', fontWeight: '500' }}>info@agriverse.in</a>
                         </p>
                     </div>
+                </div>
+
+                <div className="footer-company">
+                    <span>A brand of</span>
+                    <img src="/company-logo.webp" alt="AgriVerse LLP" loading="lazy" />
                 </div>
             </div>
 
