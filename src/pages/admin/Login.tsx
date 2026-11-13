@@ -1,6 +1,6 @@
 import { useState, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { supabase } from '../../lib/supabase';
+import { supabase, isConfigured } from '../../lib/supabase';
 import { Lock, Mail, Eye, EyeOff, ShieldAlert, ArrowLeft } from 'lucide-react';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { clientBotCheck, verifyRecaptchaToken, getFormOpenTime } from '../../lib/botProtection';
@@ -76,6 +76,12 @@ const Login = () => {
     const remaining = getRemainingLockMs(lockState.lockedUntil);
     if (remaining > 0) {
       setError(`Too many failed attempts. Try again in ${formatLockTime(remaining)}.`);
+      return;
+    }
+
+    // Not connected to Supabase yet (empty .env.local): say so instead of a misleading "Invalid credentials".
+    if (!isConfigured) {
+      setError('Supabase is not connected. Add VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY to .env.local and restart npm run dev.');
       return;
     }
 
