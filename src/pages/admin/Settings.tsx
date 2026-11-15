@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../lib/supabase';
+import { setSiteContactCache, defaultContact } from '../../lib/siteContact';
 import { Database, HardDrive, RefreshCw, CheckCircle2, Server, ArrowLeft } from 'lucide-react';
 
 export default function Settings() {
@@ -11,6 +12,11 @@ export default function Settings() {
     const [saving, setSaving] = useState(false);
     const [message, setMessage] = useState('');
     
+    // Public contact details
+    const [contact, setContact] = useState(defaultContact);
+    const [contactSaving, setContactSaving] = useState(false);
+    const [contactMessage, setContactMessage] = useState('');
+
     // Security / Password state
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -44,7 +50,26 @@ export default function Settings() {
         } else if (error) {
             console.error('Error fetching settings:', error);
         }
+        const { data: c } = await supabase.from('site_contact').select('address, phone, email').eq('id', 1).single();
+        if (c) setContact({ address: c.address || '', phone: c.phone || '', email: c.email || '' });
         setLoading(false);
+    };
+
+    const handleContactSave = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setContactSaving(true);
+        setContactMessage('');
+        const next = { address: contact.address.trim(), phone: contact.phone.trim(), email: contact.email.trim() };
+        const { error } = await supabase
+            .from('site_contact')
+            .upsert({ id: 1, ...next, updated_at: new Date().toISOString() });
+        if (error) {
+            setContactMessage('Error saving contact details: ' + error.message);
+        } else {
+            setSiteContactCache(next);
+            setContactMessage('Contact details saved. They now show on the website.');
+        }
+        setContactSaving(false);
     };
 
     const fetchStorageAndDbUsage = async () => {
@@ -214,6 +239,56 @@ export default function Settings() {
                         style={{ opacity: saving ? 0.7 : 1 }}
                     >
                         {saving ? 'Saving...' : 'Save Settings'}
+                    </button>
+                </form>
+            </div>
+
+            <div style={{ backgroundColor: 'white', padding: '30px', borderRadius: '8px', boxShadow: '0 4px 6px rgba(0,0,0,0.02)', border: '1px solid #eaeaea', marginBottom: '30px' }}>
+                <h2 style={{ fontSize: '1.2rem', fontWeight: '600', marginBottom: '6px', color: '#333' }}>Website Contact Details</h2>
+                <p style={{ fontSize: '13px', color: '#777', marginBottom: '20px' }}>Shown in the website footer and on the Contact Us page.</p>
+
+                {contactMessage && (
+                    <div style={{ padding: '15px', marginBottom: '20px', borderRadius: '6px', backgroundColor: contactMessage.includes('Error') ? '#fef2f2' : '#e6ffed', color: contactMessage.includes('Error') ? '#dc2626' : '#38a169', border: `1px solid ${contactMessage.includes('Error') ? '#fecaca' : '#b7ebc6'}` }}>
+                        {contactMessage}
+                    </div>
+                )}
+
+                <form onSubmit={handleContactSave}>
+                    <div className="admin-form-group">
+                        <label className="admin-form-label">Office Address (one line per row)</label>
+                        <textarea
+                            required
+                            rows={4}
+                            value={contact.address}
+                            onChange={(e) => setContact({ ...contact, address: e.target.value })}
+                            className="admin-form-input"
+                            placeholder={'Plot 12, Industrial Area\nCity - 000000\nState, India'}
+                        />
+                    </div>
+                    <div className="admin-form-group">
+                        <label className="admin-form-label">Phone Number</label>
+                        <input
+                            type="text"
+                            required
+                            value={contact.phone}
+                            onChange={(e) => setContact({ ...contact, phone: e.target.value })}
+                            className="admin-form-input"
+                            placeholder="+91 98765 43210"
+                        />
+                    </div>
+                    <div className="admin-form-group">
+                        <label className="admin-form-label">Contact Email</label>
+                        <input
+                            type="email"
+                            required
+                            value={contact.email}
+                            onChange={(e) => setContact({ ...contact, email: e.target.value })}
+                            className="admin-form-input"
+                            placeholder="info@company.com"
+                        />
+                    </div>
+                    <button type="submit" disabled={contactSaving} className="admin-btn admin-btn-primary" style={{ opacity: contactSaving ? 0.7 : 1 }}>
+                        {contactSaving ? 'Saving...' : 'Save Contact Details'}
                     </button>
                 </form>
             </div>

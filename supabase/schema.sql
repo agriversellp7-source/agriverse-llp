@@ -54,6 +54,18 @@ create table if not exists settings (
   updated_at  timestamptz default now()
 );
 
+-- Public contact details shown on the website (editable in Admin -> Settings)
+create table if not exists site_contact (
+  id            int primary key default 1 check (id = 1),   -- single row
+  address       text,
+  phone         text,
+  email         text,
+  updated_at    timestamptz default now()
+);
+insert into site_contact (id, address, phone, email)
+values (1, E'Your office address line 1,\nLine 2, City - PIN,\nState, India', '+91 00000 00000', 'info@agriverse.in')
+on conflict (id) do nothing;
+
 create table if not exists admin_whitelist (
   user_id uuid primary key references auth.users(id) on delete cascade
 );
@@ -63,6 +75,7 @@ create table if not exists admin_whitelist (
 alter table products        enable row level security;
 alter table enquiries       enable row level security;
 alter table settings        enable row level security;
+alter table site_contact    enable row level security;
 alter table admin_whitelist enable row level security;
 
 create or replace function is_admin() returns boolean
@@ -79,10 +92,14 @@ create policy "submit enquiries" on enquiries for insert with check (true);
 drop policy if exists "admin products"    on products;
 drop policy if exists "admin enquiries"   on enquiries;
 drop policy if exists "admin settings"    on settings;
+drop policy if exists "read contact"      on site_contact;
+drop policy if exists "admin contact"     on site_contact;
 drop policy if exists "own whitelist row" on admin_whitelist;
 create policy "admin products"    on products        for all to authenticated using (is_admin()) with check (is_admin());
 create policy "admin enquiries"   on enquiries       for all to authenticated using (is_admin()) with check (is_admin());
 create policy "admin settings"    on settings        for all to authenticated using (is_admin()) with check (is_admin());
+create policy "read contact"      on site_contact    for select using (true);
+create policy "admin contact"     on site_contact    for all to authenticated using (is_admin()) with check (is_admin());
 create policy "own whitelist row" on admin_whitelist for select to authenticated using (user_id = auth.uid());
 
 -- ---------- 3. IMAGE STORAGE ------------------------------------------

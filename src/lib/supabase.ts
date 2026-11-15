@@ -8,7 +8,7 @@ export const isConfigured = Boolean(supabaseUrl && supabaseAnonKey);
 
 /** Tiny stand-in so the public site can be previewed without a Supabase project. */
 function previewClient(): any {
-  const tables: Record<string, any[]> = { products: previewProducts, categories: previewCategories };
+  const tables: Record<string, any[]> = { products: previewProducts, categories: previewCategories, site_contact: [] };
   const builder = (rows: any[]) => {
     let data = [...rows];
     let one = false;

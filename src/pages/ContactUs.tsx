@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
 import { supabase } from '../lib/supabase';
+import { useSiteContact, telHref } from '../lib/siteContact';
 import PhoneInput from 'react-phone-number-input';
 import 'react-phone-number-input/style.css';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
@@ -8,6 +9,7 @@ import { clientBotCheck, verifyRecaptchaToken, getFormOpenTime } from '../lib/bo
 import { useSEO } from '../hooks/useSEO';
 
 export default function ContactUs() {
+    const contact = useSiteContact();
     useSEO({
         title: "Contact Us | AgriVerse LLP",
         description: "Get in touch with AgriVerse LLP for mulching sheets, bulk and dealer enquiries or general questions.",
@@ -111,20 +113,18 @@ export default function ContactUs() {
                     <div style={{ marginBottom: '30px' }}>
                         <h4 style={{ color: '#0f7a43', fontSize: '20px', marginBottom: '15px', fontWeight: '600' }}>Our Office</h4>
                         <p style={{ color: '#666', fontSize: '15px', lineHeight: '1.6' }}>
-                            <strong>Office:</strong><br />
-                            Your office address line 1, <br />
-                            Line 2, City - PIN, <br />
-                            State, India
+                            <strong>Office:</strong><br /><span style={{ whiteSpace: 'pre-line' }}>
+                            {contact.address}</span>
                         </p>
                     </div>
 
                     <div>
                         <h4 style={{ color: '#0f7a43', fontSize: '20px', marginBottom: '15px', fontWeight: '600' }}>Contact Info</h4>
                         <p style={{ color: '#666', fontSize: '15px', lineHeight: '1.6', marginBottom: '5px' }}>
-                            <strong>Phone:</strong> <a href="tel:+910000000000" style={{ color: '#0f7a43', textDecoration: 'none', fontWeight: '600' }}>+91 00000 00000</a>
+                            <strong>Phone:</strong> <a href={telHref(contact.phone)} style={{ color: '#0f7a43', textDecoration: 'none', fontWeight: '600' }}>{contact.phone}</a>
                         </p>
                         <p style={{ color: '#666', fontSize: '15px', lineHeight: '1.6' }}>
-                            <strong>Email:</strong> <a href="mailto:info@agriverse.in" style={{ color: '#0f7a43', textDecoration: 'none' }}>info@agriverse.in</a>
+                            <strong>Email:</strong> <a href={`mailto:${contact.email}`} style={{ color: '#0f7a43', textDecoration: 'none' }}>{contact.email}</a>
                         </p>
                     </div>
                 </div>

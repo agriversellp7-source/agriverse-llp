@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom';
 import { ChevronUp } from 'lucide-react';
+import { useSiteContact, telHref } from '../lib/siteContact';
 
 export default function Footer() {
+    const contact = useSiteContact();
     const scrollToTop = () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
@@ -37,10 +39,8 @@ export default function Footer() {
                         <h4 className="footer-col-heading">Our Office</h4>
                         <div style={{ marginBottom: '22px' }}>
                             <div style={{ color: 'var(--text-dark)', fontSize: '14px', fontWeight: '600', marginBottom: '8px' }}>Registered Office</div>
-                            <div style={{ color: '#4a4a4a', fontSize: '13px', lineHeight: '1.8', fontWeight: '500' }}>
-                                Your office address line 1,<br />
-                                Line 2, City - PIN,<br />
-                                State, India
+                            <div style={{ color: '#4a4a4a', fontSize: '13px', lineHeight: '1.8', fontWeight: '500', whiteSpace: 'pre-line' }}>
+                                {contact.address}
                             </div>
                         </div>
                     </div>
@@ -49,10 +49,10 @@ export default function Footer() {
                     <div className="footer-col">
                         <h4 className="footer-col-heading">Contact Info</h4>
                         <p style={{ margin: '0 0 12px' }}>
-                            <a href="tel:+910000000000" style={{ color: '#4a4a4a', textDecoration: 'none', fontSize: '14px', fontWeight: '500' }}>+91 00000 00000</a>
+                            <a href={telHref(contact.phone)} style={{ color: '#4a4a4a', textDecoration: 'none', fontSize: '14px', fontWeight: '500' }}>{contact.phone}</a>
                         </p>
                         <p style={{ margin: 0 }}>
-                            <a href="mailto:info@agriverse.in" style={{ color: '#4a4a4a', textDecoration: 'none', fontSize: '14px', fontWeight: '500' }}>info@agriverse.in</a>
+                            <a href={`mailto:${contact.email}`} style={{ color: '#4a4a4a', textDecoration: 'none', fontSize: '14px', fontWeight: '500' }}>{contact.email}</a>
                         </p>
                     </div>
                 </div>
