@@ -3,17 +3,17 @@ import { Link } from 'react-router-dom';
 
 // Replace the images in /public/images/why/ (1.jpg ... 6.jpg) with real photos (keep the same file names or update below).
 const items = [
-  { title: 'Saves Water', img: '/images/why/1.jpg',
+  { title: 'Saves Water', img: '/images/why/hq-1.jpg',
     text: 'Our film seals the soil surface so moisture stays where the roots are. Less evaporation means fewer irrigation cycles through the season.' },
-  { title: 'Controls Weeds', img: '/images/why/2.jpg',
+  { title: 'Controls Weeds', img: '/images/why/hq-2.jpg',
     text: 'Weeds need sunlight. Our opaque film blocks it at the soil surface, so weeds are suppressed without constant weeding or herbicides.' },
-  { title: 'Soil Temperature', img: '/images/why/3.jpg',
+  { title: 'Soil Temperature', img: '/images/why/hq-3.jpg',
     text: 'The film moderates root-zone temperature, protecting young plants from stress and supporting faster, even growth.' },
-  { title: 'Higher Yield', img: '/images/why/4.jpg',
+  { title: 'Higher Yield', img: '/images/why/hq-4.jpg',
     text: 'Steady moisture, healthier roots and fewer weeds add up to stronger plants and cleaner, higher quality produce.' },
-  { title: 'Fertiliser Savings', img: '/images/why/5.jpg',
+  { title: 'Fertiliser Savings', img: '/images/why/hq-5.jpg',
     text: 'The film reduces leaching and run-off, so the fertiliser you apply stays available to the crop instead of washing away.' },
-  { title: 'Durable & UV Stable', img: '/images/why/6.jpg',
+  { title: 'Durable & UV Stable', img: '/images/why/hq-6.jpg',
     text: 'Manufactured in-house with controlled thickness and UV stabilisation, our film lasts a full crop cycle without tearing or fading.' },
 ];
 
