@@ -786,3 +786,24 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Products page: tighter space above the footer */
 .all-products-grid { margin-bottom: 0 !important; }
+
+/* ===== Touch screens (no hover): auto-fade to the second product photo ===== */
+@keyframes hover-peek {
+  0%, 38%   { opacity: 0; }
+  50%, 88%  { opacity: 1; }
+  100%      { opacity: 0; }
+}
+@media (hover: none) {
+  .product-img-secondary,
+  .showcase-img-hover {
+    animation: hover-peek 6s ease-in-out infinite;
+  }
+  /* stagger so cards don't all flip at once */
+  .all-products-grid > :nth-child(2n) .product-img-secondary,
+  .showcase-panel:nth-child(2n) .showcase-img-hover { animation-delay: -2s; }
+  .all-products-grid > :nth-child(3n) .product-img-secondary,
+  .showcase-panel:nth-child(3n) .showcase-img-hover { animation-delay: -4s; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .product-img-secondary, .showcase-img-hover { animation: none !important; }
+}
