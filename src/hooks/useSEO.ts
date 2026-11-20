@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-export function useSEO({ title, description, url }: { title: string, description: string, url?: string }) {
+export function useSEO({ title, description, url, jsonLd }: { title: string, description: string, url?: string, jsonLd?: object | null }) {
   useEffect(() => {
     // 1. Update Title
     document.title = title;
@@ -49,5 +49,17 @@ export function useSEO({ title, description, url }: { title: string, description
         document.head.appendChild(canonical);
       }
     }
-  }, [title, description, url]);
+
+    // 4. Page-specific structured data (e.g. Product)
+    const id = 'page-jsonld';
+    document.getElementById(id)?.remove();
+    if (jsonLd) {
+      const el = document.createElement('script');
+      el.type = 'application/ld+json';
+      el.id = id;
+      el.text = JSON.stringify(jsonLd);
+      document.head.appendChild(el);
+    }
+    return () => { document.getElementById(id)?.remove(); };
+  }, [title, description, url, jsonLd ? JSON.stringify(jsonLd) : '']);
 }

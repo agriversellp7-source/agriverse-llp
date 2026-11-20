@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /ad
+Disallow: /ad/
 
-Sitemap: https://agriverse.in/sitemap.xml?v=3
+Sitemap: https://agriversllp.in/sitemap.xml

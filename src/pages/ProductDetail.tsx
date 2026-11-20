@@ -3,6 +3,7 @@ import { Link, useParams, useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase';
 import ProductEnquiryModal from '../components/ProductEnquiryModal';
 import ProgressiveImage from '../components/ProgressiveImage';
+import { SITE_URL } from '../lib/site';
 import { useSEO } from '../hooks/useSEO';
 
 export default function ProductDetail() {
@@ -15,9 +16,19 @@ export default function ProductDetail() {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     useSEO({
-        title: product ? `${product.title} | AgriVerse LLP` : "Product Details | AgriVerse LLP",
-        description: product ? (product.short_description || `Discover ${product.title}, a premium agricultural product by AgriVerse LLP.`) : "Premium mulching sheet product details.",
-        url: product ? `https://agriverse.in/product/${product.slug}` : "https://agriverse.in/products"
+        title: product ? `${product.title} | Dharaa Mulching Sheet | AgriVerse LLP` : "Product Details | AgriVerse LLP",
+        description: product ? (product.short_description || `${product.title}: premium Dharaa mulching sheet by AgriVerse LLP. Request a quote.`) : "Premium mulching sheet product details.",
+        url: product ? `${SITE_URL}/product/${product.slug}` : `${SITE_URL}/products`,
+        jsonLd: product ? {
+            '@context': 'https://schema.org',
+            '@type': 'Product',
+            name: product.title,
+            description: product.short_description || product.title,
+            image: (product.images || []).filter(Boolean),
+            brand: { '@type': 'Brand', name: 'Dharaa' },
+            manufacturer: { '@type': 'Organization', name: 'AgriVerse LLP' },
+            url: `${SITE_URL}/product/${product.slug}`,
+        } : null
     });
 
     useEffect(() => {

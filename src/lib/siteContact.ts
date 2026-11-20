@@ -7,11 +7,7 @@ export interface SiteContact {
   email: string;
 }
 
-export const defaultContact: SiteContact = {
-  address: 'Your office address line 1,\nLine 2, City - PIN,\nState, India',
-  phone: '+91 00000 00000',
-  email: 'info@agriverse.in',
-};
+export const defaultContact: SiteContact = { address: '', phone: '', email: '' };
 
 const KEY = 'site_contact_v1';
 let cache: SiteContact | null = null;
@@ -30,9 +26,9 @@ function load(): Promise<SiteContact> {
       const { data } = await supabase.from('site_contact').select('address, phone, email').eq('id', 1).single();
       const row = data as Partial<SiteContact> | null;
       const next: SiteContact = {
-        address: row?.address || defaultContact.address,
-        phone: row?.phone || defaultContact.phone,
-        email: row?.email || defaultContact.email,
+        address: row?.address || '',
+        phone: row?.phone || '',
+        email: row?.email || '',
       };
       cache = next;
       try { localStorage.setItem(KEY, JSON.stringify(next)); } catch { /* ignore */ }

@@ -21,7 +21,7 @@ create table if not exists products (
   hover_image_url   text,
   show_on_home      boolean default false,   -- tick in admin to feature on the Home page (max 4)
   created_at        timestamptz default now()
-);
+); 
 alter table products add column if not exists show_on_home boolean default false;
 
 create table if not exists enquiries (
@@ -63,7 +63,7 @@ create table if not exists site_contact (
   updated_at    timestamptz default now()
 );
 insert into site_contact (id, address, phone, email)
-values (1, E'Your office address line 1,\nLine 2, City - PIN,\nState, India', '+91 00000 00000', 'info@agriverse.in')
+values (1, '', '', '')
 on conflict (id) do nothing;
 
 create table if not exists admin_whitelist (

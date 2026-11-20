@@ -1,6 +1,6 @@
 # AgriVerse LLP website
 
-Vite + React + TypeScript + Supabase (based on the Petricor codebase).
+Vite + React + TypeScript + Supabase.
 
 ## Setup
 1. Create a Supabase project, run `supabase/schema.sql` in the SQL Editor.

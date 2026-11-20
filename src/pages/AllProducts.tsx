@@ -7,13 +7,14 @@ import ProgressiveImage from '../components/ProgressiveImage';
 import { Search, X } from 'lucide-react';
 import { motion } from 'framer-motion';
 
+import { SITE_URL } from '../lib/site';
 import { useSEO } from '../hooks/useSEO';
 
 export default function AllProducts() {
     useSEO({
-        title: "All Products | AgriVerse LLP",
-        description: "Browse AgriVerse's complete range of premium mulching sheets and agricultural products.",
-        url: "https://agriverse.in/products"
+        title: "Mulching Sheet Products | Dharaa by AgriVerse LLP",
+        description: "Browse the Dharaa range of premium agricultural mulching sheets by AgriVerse LLP. Request a quote for farm, bulk and dealer orders.",
+        url: `${SITE_URL}/products`
     });
     const [currentPage, setCurrentPage] = useState(1);
     const [productsData, setProductsData] = useState<any[]>([]);

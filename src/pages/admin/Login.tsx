@@ -212,7 +212,7 @@ const Login = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   autoComplete="username"
                   style={{ width: '100%', padding: '12px 12px 12px 38px', border: '1px solid #ddd', borderRadius: '6px', fontSize: '15px', boxSizing: 'border-box', backgroundColor: isLocked ? '#f9f9f9' : 'white', cursor: isLocked ? 'not-allowed' : 'text' }}
-                  placeholder="admin@agriverse.in"
+                  placeholder="admin@example.com"
                 />
               </div>
             </div>

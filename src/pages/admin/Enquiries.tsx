@@ -160,7 +160,7 @@ const EnquiryRow = ({
             <div>
               {enquiry.ingredients && enquiry.ingredients.length > 0 && (
                 <div style={{ marginBottom: '6px' }}>
-                  <span style={{ fontWeight: '700', color: '#0f7a43', fontSize: '10px', letterSpacing: '0.5px' }}>INGREDIENTS:</span>
+                  <span style={{ fontWeight: '700', color: '#0f7a43', fontSize: '10px', letterSpacing: '0.5px' }}>PRODUCTS REQUESTED:</span>
                   <div style={{ color: '#444', fontSize: '12.5px' }}>
                     {enquiry.ingredients.map(ing => `${ing.herb} (${ing.qty || 'Standard'})`).join(', ')}
                   </div>
@@ -420,7 +420,7 @@ const Enquiries = () => {
       ? 'Last 30 Days' 
       : `Custom Range (${exportStartDate || 'Start'} to ${exportEndDate || 'End'})`;
 
-    // Petricor Custom Header Branding Rows
+    // Report header rows
     const headerMetadata = [
       `"AGRIVERSE LLP - ${typeLabel} REPORT"`,
       `"Report Generated: ${new Date().toLocaleString()}"`,
@@ -441,7 +441,7 @@ const Enquiries = () => {
       'Country',
       'Role',
       'Product Name',
-      'Ingredients & Quantities',
+      'Products & Quantities',
       'Applications',
       'Documents Needed',
       'Message / Comment'
@@ -859,7 +859,7 @@ const Enquiries = () => {
             
             {selectedEnquiry.ingredients && selectedEnquiry.ingredients.length > 0 && (
               <div style={{ marginBottom: '20px' }}>
-                <div style={{ fontSize: '11px', color: '#888', textTransform: 'uppercase', fontWeight: '600', marginBottom: '8px' }}>Requested Ingredients</div>
+                <div style={{ fontSize: '11px', color: '#888', textTransform: 'uppercase', fontWeight: '600', marginBottom: '8px' }}>Requested Products</div>
                 <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }}>
                   <thead>
                     <tr style={{ backgroundColor: '#f0f7f3', borderBottom: '1px solid #e1ece5' }}>

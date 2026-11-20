@@ -37,23 +37,25 @@ export default function Footer() {
                     {/* Our Office */}
                     <div className="footer-col footer-offices-col">
                         <h4 className="footer-col-heading">Our Office</h4>
-                        <div style={{ marginBottom: '22px' }}>
+                        {contact.address && (
+<div style={{ marginBottom: '22px' }}>
                             <div style={{ color: 'var(--text-dark)', fontSize: '14px', fontWeight: '600', marginBottom: '8px' }}>Registered Office</div>
                             <div style={{ color: '#4a4a4a', fontSize: '13px', lineHeight: '1.8', fontWeight: '500', whiteSpace: 'pre-line' }}>
                                 {contact.address}
                             </div>
                         </div>
+)}
                     </div>
 
                     {/* Contact Info */}
                     <div className="footer-col">
                         <h4 className="footer-col-heading">Contact Info</h4>
-                        <p style={{ margin: '0 0 12px' }}>
+                        {contact.phone && (<p style={{ margin: '0 0 12px' }}>
                             <a href={telHref(contact.phone)} style={{ color: '#4a4a4a', textDecoration: 'none', fontSize: '14px', fontWeight: '500' }}>{contact.phone}</a>
-                        </p>
-                        <p style={{ margin: 0 }}>
+                        </p>)}
+                        {contact.email && (<p style={{ margin: 0 }}>
                             <a href={`mailto:${contact.email}`} style={{ color: '#4a4a4a', textDecoration: 'none', fontSize: '14px', fontWeight: '500' }}>{contact.email}</a>
-                        </p>
+                        </p>)}
                     </div>
                 </div>
 

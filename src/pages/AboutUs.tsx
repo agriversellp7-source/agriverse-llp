@@ -1,10 +1,11 @@
+import { SITE_URL } from '../lib/site';
 import { useSEO } from '../hooks/useSEO';
 
 export default function AboutUs() {
     useSEO({
-        title: "About Us | AgriVerse LLP",
-        description: "Learn about AgriVerse LLP, a farmer-focused agricultural manufacturing company building premium mulching sheets and solutions for modern farming.",
-        url: "https://agriverse.in/about-us"
+        title: "About AgriVerse LLP | Mulching Sheet Manufacturer | Dharaa",
+        description: "AgriVerse LLP is a farmer-focused agricultural manufacturer. Dharaa is our brand of premium mulching sheets built from real field feedback.",
+        url: `${SITE_URL}/about-us`
     });
     return (
         <div className="container" style={{ padding: '60px 15px', maxWidth: '1500px', margin: '0 auto', textAlign: 'center' }}>

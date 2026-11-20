@@ -28,7 +28,7 @@ if (!HAS_CREDENTIALS) {
     console.warn("⚠️  Supabase credentials not found - sitemap will contain static pages only.");
 }
 
-const BASE_URL = process.env.SITE_URL || 'https://agriverse.in';
+const BASE_URL = process.env.SITE_URL || 'https://agriversllp.in';
 
 async function generateSitemap() {
     console.log("Fetching products from Supabase...");

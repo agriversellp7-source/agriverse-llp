@@ -6,14 +6,15 @@ import 'react-phone-number-input/style.css';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { clientBotCheck, verifyRecaptchaToken, getFormOpenTime } from '../lib/botProtection';
 
+import { SITE_URL } from '../lib/site';
 import { useSEO } from '../hooks/useSEO';
 
 export default function ContactUs() {
     const contact = useSiteContact();
     useSEO({
-        title: "Contact Us | AgriVerse LLP",
-        description: "Get in touch with AgriVerse LLP for mulching sheets, bulk and dealer enquiries or general questions.",
-        url: "https://agriverse.in/contact-us"
+        title: "Contact AgriVerse LLP | Mulching Sheet Enquiries | Dharaa",
+        description: "Contact AgriVerse LLP for Dharaa mulching sheets: farm orders, bulk and dealer enquiries, quotes and product guidance.",
+        url: `${SITE_URL}/contact-us`
     });
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -110,22 +111,22 @@ export default function ContactUs() {
                         We'd love to hear from you. Whether you're a farmer, dealer or institution looking for premium mulching sheets and agricultural solutions, our team is ready to help.
                     </p>
 
-                    <div style={{ marginBottom: '30px' }}>
+                    {contact.address && (<div style={{ marginBottom: '30px' }}>
                         <h4 style={{ color: '#0f7a43', fontSize: '20px', marginBottom: '15px', fontWeight: '600' }}>Our Office</h4>
                         <p style={{ color: '#666', fontSize: '15px', lineHeight: '1.6' }}>
                             <strong>Office:</strong><br /><span style={{ whiteSpace: 'pre-line' }}>
                             {contact.address}</span>
                         </p>
-                    </div>
+                    </div>)}
 
                     <div>
                         <h4 style={{ color: '#0f7a43', fontSize: '20px', marginBottom: '15px', fontWeight: '600' }}>Contact Info</h4>
-                        <p style={{ color: '#666', fontSize: '15px', lineHeight: '1.6', marginBottom: '5px' }}>
+                        {contact.phone && (<p style={{ color: '#666', fontSize: '15px', lineHeight: '1.6', marginBottom: '5px' }}>
                             <strong>Phone:</strong> <a href={telHref(contact.phone)} style={{ color: '#0f7a43', textDecoration: 'none', fontWeight: '600' }}>{contact.phone}</a>
-                        </p>
-                        <p style={{ color: '#666', fontSize: '15px', lineHeight: '1.6' }}>
+                        </p>)}
+                        {contact.email && (<p style={{ color: '#666', fontSize: '15px', lineHeight: '1.6' }}>
                             <strong>Email:</strong> <a href={`mailto:${contact.email}`} style={{ color: '#0f7a43', textDecoration: 'none' }}>{contact.email}</a>
-                        </p>
+                        </p>)}
                     </div>
                 </div>
 

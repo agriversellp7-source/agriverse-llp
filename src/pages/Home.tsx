@@ -79,13 +79,14 @@ function AnimatedCounter({ end, suffix = '', delayOnLoad = false }: { end: numbe
     return <span ref={ref} style={{ display: 'inline-block', minWidth: '1.2em' }}>{count}{suffix}</span>;
 }
 
+import { SITE_URL } from '../lib/site';
 import { useSEO } from '../hooks/useSEO';
 
 export default function Home() {
     useSEO({
-        title: "AgriVerse LLP | Premium Mulching Sheets",
-        description: "AgriVerse LLP manufactures premium mulching sheets and agricultural solutions for modern, farmer-focused agriculture.",
-        url: "https://agriverse.in/"
+        title: "Dharaa Mulching Sheets | Premium Mulch Film Manufacturer in India | AgriVerse LLP",
+        description: "Dharaa mulching sheets by AgriVerse LLP: premium agricultural mulch film that saves water, controls weeds and raises crop yield. Direct from the manufacturer. Enquire for bulk and dealer pricing.",
+        url: `${SITE_URL}/`
     });
 
     
